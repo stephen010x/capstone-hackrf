@@ -59,6 +59,14 @@ const char* filename_from_path(const char* path);
     } while(0)
 
 
+#   define error(__rcode) do {
+        _Pragma("GCC diagnostic push")                          \
+        _Pragma("GCC diagnostic ignored \"-Wunused-value\"")    \
+        return(__rcode);                                        \
+        _Pragma("GCC diagnostic pop")                           \
+    } while(0)
+
+
 #   define fassert(__expr) do {                                 \
         _Pragma("GCC diagnostic push")                          \
         _Pragma("GCC diagnostic ignored \"-Wunused-value\"")    \
@@ -105,10 +113,11 @@ const char* filename_from_path(const char* path);
         _Pragma("GCC diagnostic ignored \"-Wunused-value\"")                    \
         printf(STR_FATAL "\t%s:%s: %s(...): fatal error with code '%d'.\n",     \
             __FILENAME__,  STRINGIFY(__LINE__), __ASSERT_FUNCTION, __ecode);    \
-        fflush(stdout);                                                     \
+        fflush(stdout);                                                         \
         exit(__ecode);                                                          \
         _Pragma("GCC diagnostic pop")                                           \
     } while(0)
+
 
 
 #   define fassert(__expr) do {                                                 \
